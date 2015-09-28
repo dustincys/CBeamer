@@ -108,21 +108,16 @@
       \node[above] at (current page) {\textbf{#2}};
     \end{tikzpicture}%
 }
-
 \tikzstyle{nodetype1pre}= [circle, fill=gray!60]
 \tikzstyle{nodetype1}= [circle, fill=structure.fg!30]
-
 \tikzstyle{unnodetype1}= [circle, fill=gray!60]
-
 \tikzstyle{linktype1pre}= [-latex]
 \tikzstyle{linktype1}= [-latex, draw=purple, line width=1.5pt]
-
 \tikzstyle{dilinktype1pre}= [-]
 \tikzstyle{dilinktype1}= [-, draw=purple, line width=1.5pt]
-
 \tikzstyle{unlinktype1}= [-latex]
-
 \tikzstyle{linktype2}= [-latex, snake=snake,line after snake=4mm, draw=structure.fg, line width=1.5pt]
+\tikzstyle{every picture}+=[remember picture]
 
 \newcommand{\point}[1]{\textbf{\usebeamercolor[fg]{structure}#1}} %定义高亮文本
 \newcommand{\bcite}[1]{\textbf{\textcolor{red!80}{\textsuperscript{[}\footfullcite{#1}\textsuperscript{]}}}}
@@ -172,11 +167,13 @@
 \frametitle{Bullet Points}
 \begin{itemize}
 \item Lorem ipsum dolor sit amet, consectetur adipiscing elit
-\item Aliquam blandit faucibus nisi, sit amet dapibus enim tempus eu
+\item Aliquam blandit \tikz[baseline,inner sep=0] \node[anchor=base] (n1) {paths};faucibus nisi, sit amet dapibus enim tempus eu
 \item Nulla commodo, erat quis gravida posuere, elit lacus lobortis est, quis porttitor odio mauris at libero
 \item Nam cursus est eget velit posuere pellentesque
-\item Vestibulum faucibus velit a augue condimentum quis convallis nulla gravida
+\item Vestibulum faucibus velit a augue condimentum quis \tikz[baseline,inner sep=0] \node[anchor=base] (n2) {convallis };nulla gravida
 \end{itemize}
+\pause
+\tikz[overlay]\draw[thick,green,->] (n2) -- (n1);
 \end{frame}
 
 %------------------------------------------------
@@ -218,58 +215,14 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ul
 
 
 \section{图、表、公式} 
-
+\subsection{普通插图} %a subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
 \begin{frame}
 \frametitle{Figure}
-Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
+Uncomment the {code} on this slide to include your own image from the same {directory} as the template .TeX file.
 \begin{figure}
 \includegraphics[width=0.2\linewidth]{pic/1.jpg}
 \caption{example}
 \end{figure}
-\end{frame}
-
-%------------------------------------------------
-
-\subsection{公式和列表} 
-
-\begin{frame}
-\frametitle{公式说明}
-
-\begin{equation}
-  \frac{\mathrm{d}\mathbf{\mathrm{x}}(t)}{\mathrm{d}t} = A\mathbf{\mathrm{x}}(t)+ B\mathbf{\mathrm{u}}(t)\text{。}
-\label{eq:control}
-\end{equation}
-
-其中：
-\begin{itemize}
-\item 向量$\mathbf{\mathrm{x}}(t)$表示$N$个在$t$时
-\item $A$表示$N$个度
-\item $\mathbf{\mathrm{u}}$
-\item $B$表示位点
-\end{itemize}
-
-\pause
-\begin{block}{注意}
-这是一个block。
-\end{block}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Table}
-\begin{table}
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
-\end{table}
 \end{frame}
 
 \subsection{tikz绘图} %a subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
@@ -327,6 +280,65 @@ Treatment 3 & 0.0009271 & 0.296 \\
 
   \end{tikzpicture}
   \frametitle{tikz picture sample}
+\end{frame}
+
+\begin{frame}
+\frametitle{手绘图}
+\tikzstyle{every picture}+=[remember picture]
+\[  y =  \tikz[baseline]{\node[fill=blue!50,anchor=base] (t1){$a$};} x +
+\tikz[baseline]{\node[fill=red!50,anchor=base ] (t2){$b$};}
+\]
+\begin{itemize}
+\item \tikz\node [fill=blue!50,draw,circle] (n1) {};\ slope
+\item \tikz\node [fill=red!50,draw,circle] (n2) {};\ y-intercept
+\end{itemize}
+\begin{tikzpicture}[overlay,>=latex]
+\path[blue,->] (n1.north) edge [out= 60, in= 135] (t1.north west);
+\path[red,->] (n2.south) edge [out=-70, in=-110] (t2.south);
+\end{tikzpicture}
+\end{frame}
+%------------------------------------------------
+
+%------------------------------------------------
+\subsection{公式和列表} 
+
+\begin{frame}
+\frametitle{公式说明}
+\begin{equation}
+  \frac{\mathrm{d}\mathbf{\mathrm{x}}(t)}{\mathrm{d}t} = A\mathbf{\mathrm{x}}(t)+ B\mathbf{\mathrm{u}}(t)\text{。}
+\label{eq:control}
+\end{equation}
+
+其中：
+\begin{itemize}
+\item 向量$\mathbf{\mathrm{x}}(t)$表示$N$个在$t$时
+\item $A$表示$N$个度
+\item $\mathbf{\mathrm{u}}$
+\item $B$表示位点
+\end{itemize}
+
+\pause
+\begin{block}{注意}
+这是一个block。
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Table}
+\begin{table}
+\begin{tabular}{l l l}
+\toprule
+\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
+\midrule
+Treatment 1 & 0.0003262 & 0.562 \\
+Treatment 2 & 0.0015681 & 0.910 \\
+Treatment 3 & 0.0009271 & 0.296 \\
+\bottomrule
+\end{tabular}
+\caption{Table caption}
+\end{table}
 \end{frame}
 
 
