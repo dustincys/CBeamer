@@ -1,0 +1,70 @@
+% \ProvidesPackage{beamerinnerthemeumbctribullets}[2004/12/14 v1.0 for beamer 3.01]
+\ProvidesPackage{beamerinnerthemeumbctribullets}[2007/05/05 v1.1 for beamer 3.01]
+
+% Beamer inner theme
+% Set enumi, enumii, enumiii markers to triangles with shadows
+% 
+% Usage:
+%
+%    \useinnertheme{umbctribullets}
+% 
+% The color of the triangles may be changed with the command:
+% 
+%    \umbctribulletscolors{colori}{colorii}{coloriii}
+%
+% For example:
+% 
+%    \umbctribulletscolors{structure!60!bg}{structure!60!bg}{red}
+%    
+% 
+% Rouben Rostamian <rostamian@umbc.edu>
+
+
+\mode<presentation>
+
+% added 2007-05-05
+\usepackage{pgfcomp-version-0-65}
+
+% Draws a right-pointing triangle in color #1.
+\newcommand{\umbc@filledTriangle}[1]{%
+  \pgfmoveto{\pgfxy(0,-1)}
+  \pgflineto{\pgfxy(0,1)}
+  \pgflineto{\pgfxy(1,0)}
+  \pgfclosepath
+  \color{#1}
+  \pgffill}
+
+% Draws three overlapping triangles to achieve a shadow effect.
+% The non-shadow trangle is drawn in color #1.
+\newcommand{\umbc@tribullets}[1]{{       % two braces to localize \pgfsetxvec
+  \pgfsetxvec{\pgfpoint{0.75ex}{0pt}}   % x-scale
+  \pgfsetyvec{\pgfpoint{0pt}{0.75ex}}   % y-scale
+  \begin{pgfpicture}{-0.1ex}{-0.6ex}{1.2ex}{-0.6ex}  % clipping
+    \pgftranslateto{\pgfxy(0.15,-.30)}
+    \pgftranslateto{\pgfxy(-0.05,.10)}\umbc@filledTriangle{black!20!bg}
+    \pgftranslateto{\pgfxy(-0.05,.10)}\umbc@filledTriangle{black!75!bg}
+    \pgftranslateto{\pgfxy(-0.05,.10)}\umbc@filledTriangle{#1}
+  \end{pgfpicture}}}
+
+% hook to let user change the tribullets colors for enumi, enumii, enumiii
+\newcommand{\umbctribulletscolors}[3]{%
+  \def\umbc@tribulletscoli{#1}
+  \def\umbc@tribulletscolii{#2}
+  \def\umbc@tribulletscoliii{#3}
+}
+
+% set default colors for enumi, enumii, enumiii
+\umbctribulletscolors{red}{blue}{orange!40!yellow}
+
+\defbeamertemplate{itemize item}{umbctribullets}{%
+  \umbc@tribullets{\umbc@tribulletscoli}}
+
+\defbeamertemplate{itemize subitem}{umbctribullets}{%
+  \small\umbc@tribullets{\umbc@tribulletscolii}}
+
+\defbeamertemplate{itemize subsubitem}{umbctribullets}{
+  \footnotesize\umbc@tribullets{\umbc@tribulletscoliii}}
+
+\setbeamertemplate{items}[umbctribullets]
+
+\mode<all>

@@ -1,0 +1,115 @@
+%\ProvidesPackage{beamerthemeumbc4}[2004/10/14 v1.0 for beamer 2.21]
+%\ProvidesPackage{beamerthemeumbc4}[2004/12/26 v1.1 for beamer 3.01]
+%\ProvidesPackage{beamerthemeumbc4}[2005/03/05 v1.2 for beamer 3.01]
+\ProvidesPackage{beamerthemeumbc4}[2007/05/05 v1.3 for beamer 3.01]
+
+% A stripped-down theme for beamer, inspired by a PowerPoint design
+% 
+% Usage:
+%
+% \documentclass{beamer}
+% [commands affecting slide's background color, if any, go here]
+% \usetheme{umbc4}
+% ...
+% 
+% Rouben Rostamian <rostamian@umbc.edu>
+
+
+% Revision history:
+% v1.2:
+% 1. Moved \newdimen\umbc@ypos and \newbox\umbc@mybox out of the definition
+%    of \setbeamertemplate{frametitle}{...}.
+% 2. Renamed \@ypos and \@mybox to \umbc@ypos \umbc@mybox
+% 3. 2007-05-05: Added \usepackage{pgfcomp-version-0-65} 
+
+
+\mode<presentation>
+
+\usepackage{pgfcomp-version-0-65}
+
+
+%------ definition of the red, gold, blue logo ------------------------
+
+{
+  \usebeamercolor[bg]{background canvas}  % blend logo with canvas bg color
+
+  \pgfdeclarehorizontalshading{umbc@redbox}{60mm}%
+    {color(0mm)=(bg); rgb(5mm)=(1,0.6,0.6); rgb(10mm)=(1,0,0)}
+
+  \pgfdeclarehorizontalshading{umbc@bluebox}{6mm}%
+    {rgb(0mm)=(0,0,1); color(8mm)=(bg)}
+
+  \pgfdeclarehorizontalshading{umbc@goldbox}{6mm}%
+    {rgb(0mm)=(1,0.7,0); color(8mm)=(bg)}
+
+  \pgfdeclarehorizontalshading{umbc@fadingline}{.28mm}%
+    {color(0mm)=(black); color(50mm)=(black!50!bg); color(110mm)=(bg)}
+}
+
+\newcommand{\umbc@pplogo}{%
+  \raisebox{-12mm}[0pt][0pt]{%
+    \begin{pgfpicture}{0mm}{0mm}{0mm}{0mm}
+
+      % the gold box
+      \begin{pgftranslate}{\pgfpoint{0mm}{5mm}}
+        \pgfbox[center,center]{\pgfuseshading{umbc@goldbox}}
+      \end{pgftranslate}
+
+      % the blue box
+      \begin{pgftranslate}{\pgfpoint{2mm}{-1mm}}
+        \pgfbox[center,center]{\pgfuseshading{umbc@bluebox}}
+      \end{pgftranslate}
+
+      % the red box
+      \begin{pgftranslate}{\pgfpoint{-2mm}{1mm}}
+        \pgfmoveto{\pgfpoint{-4mm}{-3mm}}
+        \pgflineto{\pgfpoint{4mm}{-3mm}}
+        \pgflineto{\pgfpoint{4mm}{3mm}}
+        \pgflineto{\pgfpoint{-4mm}{3mm}}
+        \pgffillclip
+        \begin{pgfrotateby}{\pgfdegree{45}}
+          \pgfbox[center,center]{\pgfuseshading{umbc@redbox}}
+        \end{pgfrotateby}
+      \end{pgftranslate}
+
+      % horizontal fading line
+      \begin{pgftranslate}{\pgfpoint{-5mm}{0mm}}
+        \pgfbox[left,base]{\pgfuseshading{umbc@fadingline}}
+      \end{pgftranslate}
+
+      % solid vertical line
+      \pgfsetlinewidth{0.28mm}
+      \color{black}
+      \pgfline{\pgfpoint{0mm}{-5mm}}{\pgfpoint{0mm}{10mm}}
+
+    \end{pgfpicture}
+  }
+}
+
+%------ end of definition of the red, gold, blue logo -----------------
+
+% frame head
+\setbeamertemplate{headline}[text line]{\umbc@pplogo}
+
+\setbeamerfont{frametitle}{size=\large} % beamer's default is \Large
+
+% Trying to position frame title in a fixed position.
+% Unfortunately, Beamer provides no hooks for absolute positioning of text.
+% I have arrived at the following kludge by trial and error.  It works only
+% approximately.  It may have to be readjusted to work with future releases
+% of Beamer.
+\newdimen\umbc@ypos
+\newbox\umbc@mybox
+\setbeamertemplate{frametitle}{%
+  \setbox\umbc@mybox\hbox{\normalsize x}
+  \umbc@ypos=\ht\umbc@mybox
+  \multiply \umbc@ypos by 2
+  \advance \umbc@ypos by -8mm
+  \raisebox{\umbc@ypos}[0pt][11mm]{\hspace*{8mm}\insertframetitle}
+}
+
+\useoutertheme{umbcfootline}
+\useinnertheme{umbctribullets}
+\setbeamerfont{structure}{shape=\itshape}
+
+\mode<all>

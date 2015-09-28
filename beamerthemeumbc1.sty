@@ -1,0 +1,37 @@
+\ProvidesPackage{beamerthemeumbc1}[2004/12/17 v1.1 for beamer 3.01]
+%\ProvidesPackage{beamerthemeumbc1}[2004/08/17 v1.0 for beamer 2.21]
+
+% A very stripped-down theme for beamer
+% 
+% Usage:
+%
+% \documentclass{beamer}
+% \usetheme{umbc1}
+% ...
+% 
+% Rouben Rostamian <rostamian@umbc.edu>
+
+\mode<presentation>
+
+\setbeamercolor{umbc@decorations}{parent=palette primary}
+{\usebeamercolor{umbc@decorations}}
+
+\setbeamertemplate{headline}[text line]{%
+  \vbox{%
+    \vskip6pt%
+    \insertvrule{2.0pt}{umbc@decorations.fg!50!bg}%
+    \vskip-2pt%
+  }%
+}
+
+% Here we load beamerouterthemeumbcfootline but then we
+% redefine \setbeamertemplate to add a horizontal separator bar.
+\useoutertheme{umbcfootline}
+\setbeamertemplate{footline}[text line]{%
+  \vbox{%
+    \insertvrule{2.0pt}{umbc@decorations.fg!50!bg}%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.25ex,dp=1ex]{umbc@decorations}%
+            \Tiny\hspace*{4mm}\umbc@footline\hspace{4mm}
+    \end{beamercolorbox}}}
+
+\mode<all>

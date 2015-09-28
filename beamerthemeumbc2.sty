@@ -1,0 +1,28 @@
+\ProvidesPackage{beamerthemeumbc2}[2004/12/19 v1.0 for beamer 3.01]
+
+% A slightly modified version of the Classic theme (beamer 2.21) and
+% and the Singapore theme (beamer 3.01).
+% 
+% Usage:
+% 
+% \documentclass{beamer}
+% \usetheme{umbc2}
+% ...
+% Rouben Rostamian <rostamian@umbc.edu>
+
+\mode<presentation>
+
+% vertical shading for header
+\setbeamercolor{section in head/foot}{use=structure,bg=structure.fg!25!bg}
+\AtBeginDocument{%
+  {\usebeamercolor{section in head/foot}}
+  \pgfdeclareverticalshading{beamer@headfade}{\paperwidth}{%
+    color(0cm)=(bg); color(1.5cm)=(section in head/foot.bg) }
+  \setbeamercolor{section in head/foot}{bg=}
+}
+\addtoheadtemplate{\pgfuseshading{beamer@headfade}\vskip-1.5cm}{}
+
+\setbeamertemplate{items}[ball]   % 3-D balls for itemize/enumerate
+\useoutertheme{umbcfootline}
+
+\mode<all>

@@ -1,0 +1,96 @@
+%\ProvidesPackage{beamerthemeumbc3}[2005/02/10 v1.0 for beamer 3.01]
+%\ProvidesPackage{beamerthemeumbc3}[2005/03/06 v1.1 for beamer 3.01]
+\ProvidesPackage{beamerthemeumbc3}[2007/05/05 v1.2 for beamer 3.01]
+
+% A stripped-down theme for beamer, inspired by a PowerPoint design
+% 
+% Usage:
+%
+% \documentclass{beamer}
+% [commands affecting slide's background color, if any, go here]
+% \usetheme{umbc3}
+% ...
+% 
+% Rouben Rostamian <rostamian@umbc.edu>
+
+
+% Revision history:
+% v1.1:
+% 1. Moved \newdimen\umbc@ypos and \newbox\umbc@mybox out of the definition
+%    of \setbeamertemplate{frametitle}{...}.
+% 2. Renamed \@ypos and \@mybox to \umbc@ypos \umbc@mybox
+% 3. 2007-05-05: Added \usepackage{pgfcomp-version-0-65} 
+
+\mode<presentation>
+
+\usecolortheme[RGB={0,0,128}]{structure}
+\usepackage{pgfcomp-version-0-65}
+
+\newdimen\umbc@px
+\umbc@px=0.4mm
+
+{
+  \usebeamercolor[bg]{background canvas}  % blend logo with canvas bg color
+  \setbeamercolor{umbc@decorations}{parent=palette primary}
+  {\usebeamercolor{umbc@decorations}}
+
+  \pgfdeclarehorizontalshading{umbc@fadingline}{4\umbc@px}%
+    {color(0mm)=(umbc@decorations.fg);
+     color(50mm)=(umbc@decorations.fg!50!bg);
+     color(110mm)=(bg)}
+
+  \pgfdeclarehorizontalshading{umbc@fadingblock}{8\umbc@px}%
+    {color(0mm)=(umbc@decorations.fg!20!bg);
+     color(3mm)=(bg)}
+}
+
+\newcommand{\umbc@pplogo}{%
+  \begin{pgfpicture}{10mm}{10\umbc@px}{0mm}{0mm}
+
+    \begin{pgftranslate}{\pgfpoint{8\umbc@px}{2\umbc@px}}
+      \pgfbox[left,base]{\pgfuseshading{umbc@fadingline}}
+    \end{pgftranslate}
+
+    \pgfbox[left,base]{\pgfuseshading{umbc@fadingblock}}
+
+    \color{umbc@decorations.fg!60!bg}
+    \pgfrect[fill]{\pgfpoint{4\umbc@px}{0\umbc@px}}{\pgfpoint{2\umbc@px}{2\umbc@px}}
+    \pgfrect[fill]{\pgfpoint{6\umbc@px}{2\umbc@px}}{\pgfpoint{2\umbc@px}{2\umbc@px}}
+    \pgfrect[fill]{\pgfpoint{8\umbc@px}{4\umbc@px}}{\pgfpoint{2\umbc@px}{2\umbc@px}}
+
+    \color{umbc@decorations.fg!30!bg}
+    \pgfrect[fill]{\pgfpoint{4\umbc@px}{2\umbc@px}}{\pgfpoint{2\umbc@px}{2\umbc@px}}
+    \pgfrect[fill]{\pgfpoint{6\umbc@px}{4\umbc@px}}{\pgfpoint{2\umbc@px}{2\umbc@px}}
+    \pgfrect[fill]{\pgfpoint{8\umbc@px}{6\umbc@px}}{\pgfpoint{2\umbc@px}{2\umbc@px}}
+
+    \color{umbc@decorations.fg}
+    \pgfrect[fill]{\pgfpoint{2\umbc@px}{4\umbc@px}}{\pgfpoint{2\umbc@px}{2\umbc@px}}
+
+  \end{pgfpicture}
+}
+
+% frame head
+\setbeamertemplate{headline}[text line]{\umbc@pplogo}
+
+%\setbeamerfont{frametitle}{size=\large} % beamer's default is \Large
+
+% Trying to position frame title in a fixed position.
+% Unfortunately, Beamer provides no hooks for absolute positioning of text.
+% I have arrived at the following kludge by trial and error.  It works only
+% approximately.  It may have to be readjusted to work with future releases
+% of Beamer.
+\newdimen\umbc@ypos
+\newbox\umbc@mybox
+\setbeamertemplate{frametitle}{%
+  \setbox\umbc@mybox\hbox{\normalsize x}
+  \umbc@ypos=\ht\umbc@mybox
+  \multiply \umbc@ypos by 2
+  \advance \umbc@ypos by -8mm
+  \raisebox{\umbc@ypos}[0pt][4mm]{\kern-5mm\insertframetitle}
+}
+
+\useoutertheme{umbcfootline}
+\setbeamertemplate{items}[ball] 
+\setbeamerfont{structure}{shape=\itshape}
+
+\mode<all>

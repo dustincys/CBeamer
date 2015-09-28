@@ -1,0 +1,38 @@
+\ProvidesPackage{beamerouterthemeumbcfootline}[2004/11/27 v1.0 for beamer 3.01]
+
+% A Beamer outer theme to put footlines on slides
+% 
+% The user can override the default contents of the footline
+% through the command \setfootline{whatever}
+% 
+% Rouben Rostamian <rostamian@umbc.edu>
+
+\mode<presentation>
+
+% the default contents of footline
+\newcommand{\umbc@footline}{%
+  \makebox[0pt][l]{\insertshortauthor, \insertshortinstitute}
+  \hfill
+  \insertshorttitle
+  \ifx\insertsubtitle\@empty\else, \insertshortsubtitle\fi
+  \hfill
+  \makebox[0pt][l]{\insertframenumber/\inserttotalframenumber}
+}
+
+% color definition as in beamerouterthemeinfolines.sty
+\setbeamercolor{umbc@ftcolor}{parent=palette secondary}
+
+\setbeamertemplate{footline}{%
+  \usebeamerfont{structure}
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.25ex,dp=1ex]{umbc@ftcolor}%
+    \Tiny\hspace*{4mm}\umbc@footline\hspace{4mm}
+  \end{beamercolorbox}}
+
+% The user can override the default \umbc@footline by \setfootline{whatever}
+\newcommand{\setfootline}[1]{\renewcommand{\umbc@footline}{#1}}
+
+% don't show navigation buttons
+\setbeamertemplate{navigation symbols}{}
+
+\mode<all>
+

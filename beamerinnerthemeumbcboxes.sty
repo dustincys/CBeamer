@@ -1,0 +1,63 @@
+\ProvidesPackage{beamerinnerthemeumbcboxes}[2004/12/20 v1.0 for beamer 3.01]
+
+% Here we define two new environments, displaybox and onlinebox,
+% draw fancy boxes around text and equations.
+% 
+% Usage:
+%
+% \documentclass{beamer}
+% \usetheme{umbc4}
+% \useinnertheme{umbcboxes}
+% \setbeamercolor{umbcboxes}{bg=violet!15,fg=black}
+% ...
+% \begin{displaybox}{5cm}
+% \[ a^2 + b^2 = c^2 \]
+% \end{displaybox}
+% ...
+% This is an \begin{onlinebox}{24mm} online box.\end{onlinebox}
+% 
+% Rouben Rostamian <rostamian@umbc.edu>
+
+\mode<presentation>
+
+% The default box color.  The user is expected to override this.
+\setbeamercolor{umbcboxes}{bg=structure!15!normal text.bg,fg=black}
+
+% \newenvironment{displaybox}[1]{
+% \begin{columns}\begin{column}{#1}
+% \begin{beamerboxesrounded}[lower=umbcboxes,shadow=true]{}}
+% {\end{beamerboxesrounded}\end{column}\end{columns}}
+% 
+% \newenvironment{onlinebox}[1]{
+% \newbox\@mybox
+% \setbox\@mybox\hbox\bgroup\begin{minipage}{#1}
+% \begin{beamerboxesrounded}[lower=umbcboxes,shadow=true]{}%
+%   \centering\vspace{-2pt}}
+% {\end{beamerboxesrounded}\end{minipage}\egroup%
+%   \hspace{0.0em}\raisebox{1pt}{\usebox\@mybox}\hspace{0.5em}}
+
+\newenvironment{displaybox}[1]
+{
+  \centerline\bgroup\hfill
+  \begin{beamerboxesrounded}[lower=umbcboxes,shadow=true,width=#1]{}
+}
+{
+  \end{beamerboxesrounded}\hfill\egroup
+}
+
+\newenvironment{onlinebox}[1]
+{
+  \newbox\@mybox
+  \newdimen\@myboxht
+  \setbox\@mybox\hbox\bgroup%
+    \begin{beamerboxesrounded}[lower=umbcboxes,shadow=true,width=#1]{}
+  \centering
+}
+{
+  \end{beamerboxesrounded}\egroup
+  \@myboxht\ht\@mybox
+  \raisebox{-0.25\@myboxht}{\usebox\@mybox}\hspace{2pt}
+}
+
+\mode<all>
+
